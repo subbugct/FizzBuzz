@@ -1,0 +1,8 @@
+.word-gen-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.word-gen-container > * {
+  width: 30%;
+}

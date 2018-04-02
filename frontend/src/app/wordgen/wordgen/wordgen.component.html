@@ -1,0 +1,11 @@
+<div class="word-gen-container">
+  <form [formGroup]="wordgenform" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <input  matInput placeholder="Enter your input" [formControl]="numericInput" required>
+    <mat-error *ngIf="numericInput.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+  <button [disabled]="wordgenform.invalid" mat-raised-button color="primary">Submit</button> 
+</form>
+<mat-label *ngIf="(output$ | async)?.content !==null && numericInput.valid">Output: {{(output$ | async)?.content}}</mat-label>
+<mat-label *ngIf="(error$ | async) !== null">Error Occured: {{(error$ | async)}}</mat-label>
+</div>

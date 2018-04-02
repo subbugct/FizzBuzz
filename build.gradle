@@ -1,0 +1,58 @@
+
+buildscript {
+	ext {
+		springBootVersion = '1.5.10.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+		maven {
+		   url "https://plugins.gradle.org/m2/"
+		}
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath "com.moowork.gradle:gradle-node-plugin:1.2.0"
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: "com.moowork.node"
+
+group = 'com.bizz.fuzz'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+task buildAngular(type:NpmTask, dependsOn:'npmInstall') {
+group = 'build'
+args = ['run', 'build']
+}
+
+//build.dependsOn(buildAngular)
+
+compileJava.dependsOn(buildAngular)
+
+jar {
+    baseName = 'spring-boot-wordgen-angular'
+    version =  '1.0.0'
+}
+
+node {
+nodeModulesDir =  file("frontend")
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-web')
+	// Below will replace springloaded, without restart the server the changes will get into effect.
+   	compile("org.springframework.boot:spring-boot-devtools")
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+
+
